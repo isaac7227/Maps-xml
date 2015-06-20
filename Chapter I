@@ -1,0 +1,413 @@
+<map proto="1.4.0">
+<name>Chapter I</name>
+<version>1.0.0</version>
+<objective>Insert Objective here.</objective>
+<authors>
+    <author uuid="86a53ac5-11db-4435-b672-ea3773c31082"/> <!-- isaac7227 -->
+</authors>
+<contributors>
+    <contributor uuid="75fd93dd-8e48-4698-81a2-97dae2ec5b5f" contribution="XML"/> <!-- Pugzy -->
+</contributors>
+<rules>
+    <rule>Don't touch the river as you will get damaged!</rule>
+</rules>
+<broadcasts>
+    <tip after="1">Don't touch the river! you will get damaged!</tip>
+</broadcasts>
+<timelock>on</timelock>
+<maxbuildheight>64</maxbuildheight>
+<teams>
+    <team id="teamRed" color="Red" max="25" max-overfill="30">Red</team>
+    <team id="teamBlue" color="Blue" max="25" max-overfill="30">Blue</team>
+</teams>
+<kits>
+    <kit id="kitRed" parents="spawnKit">
+        <helmet color="993333" unbreakable="true" locked="true">leather helmet</helmet>
+        <chestplate color="993333" unbreakable="true" locked="true">leather chestplate</chestplate>
+        <leggings color="993333" unbreakable="true" locked="true">leather leggings</leggings>
+        <boots color="993333" unbreakable="true" locked="true">leather boots</boots>
+    </kit>
+    <kit id="kitBlue" parents="spawnKit">
+        <helmet color="334CB2" unbreakable="true" locked="true">leather helmet</helmet>
+        <chestplate color="334CB2" unbreakable="true" locked="true">leather chestplate</chestplate>
+        <leggings color="334CB2" unbreakable="true" locked="true">leather leggings</leggings>
+        <boots color="334CB2" unbreakable="true" locked="true">leather boots</boots>
+    </kit>
+    <kit id="spawnKit">
+        <item slot="0">iron_sword</item>
+        <item slot="1">bow</item>
+        <item slot="2" amount="16" name="Grenade" grenade="true" grenade-power="1.2">snow ball</item>
+        <item slot="3" amount="4">water_lily</item>
+        <item slot="7" amount="64">arrow</item>
+        <item slot="8" amount="64">arrow</item>
+        <potion duration="oo" amplifier="1">night vision</potion>
+    </kit>
+    <kit id="waterDamage">
+        <potion duration="10" amplifier="10">poison</potion>
+    </kit>
+	<kit id="GrenadeGlass">
+        <potion duration="10" amplifier="255">slow digging</potion>
+    </kit>
+    <kit id="obsKit">
+        <potion duration="oo" amplifier="1">night vision</potion>
+    </kit>
+	<kit id="rewardKit">
+        <item slot="6" amount="1">tnt</item>
+    </kit>
+</kits>
+<spawns>
+    <spawn team="teamRed" kit="kitRed">
+        <regions yaw="-90">
+            <point>108.5,21,22.5</point>
+        </regions>
+    </spawn>
+    <spawn team="teamBlue" kit="kitBlue">
+        <regions yaw="90">
+            <point>-107.5,21,103.5</point>
+        </regions>
+    </spawn>
+    <default kit="obsKit">
+        <regions yaw="0">
+            <cylinder base="0.5,74,-37.5" radius="3" height="5"/>
+        </regions>
+    </default>
+</spawns>
+<filters>
+    <team id="only-red">teamRed</team>
+    <team id="only-blue">teamBlue</team>
+
+    <filter name="only-leaves">
+        <any>
+            <block>leaves</block>
+            <block>log</block>
+            <block>stained clay</block>
+			<block>fence</block>
+            <block>wood</block>
+        </any>
+    </filter>
+		<material id="only-glass">glass</material>
+</filters>
+<regions>
+    <apply kit="waterDamage">
+        <region>
+            <region id="middleWater"/>
+        </region>
+    </apply>
+	<apply kit="GrenadeGlass">
+        <region>
+            <region id="spawnCastles"/>
+        </region>
+    </apply>
+    <cuboid id="middleWater" min="5,18,122" max="-4,11,4"/>
+    <cuboid id="scoreboxRed" min="-7,4,21" max="8,7,23"/>
+    <union id="spawnCastles">
+        <rectangle id="blueCastle" min="-95,120" max="-135,57"/>
+        <rectangle id="redCastle" min="96,6" max="136,69"/>
+    </union>
+    <apply block-break="only-glass" block-place="deny-all">
+        <union id="spawnCastles"/>
+    </apply>
+	<apply block-break="only-block" block-place="deny-all">
+        <negative><union id="spawnCastles"/></negative>
+    </apply>
+	
+	
+	<apply enter="only-red">
+        <region id="redCastle"/>
+    </apply>
+	<apply enter="only-blue">
+        <region id="blueCastle"/>
+    </apply>
+</regions>
+<control-points capture-players="lead" incremental="true" show-progress="true" capture-time="20s" required="false">
+    <control-point name="Top Hill">
+        <capture><cuboid min="5,18,67" max="-4,20,59"/></capture>
+        <progress><cuboid min="5,18,67" max="-4,20,59"/></progress>
+        <captured><cuboid min="5,18,67" max="-4,20,59"/></captured>
+    </control-point>
+    <control-point name="Bottom Hill">
+        <capture><cuboid min="4,3,67" max="-3,7,59"/></capture>
+        <progress><cuboid min="4,3,67" max="-3,7,59"/></progress>
+        <captured><cuboid min="4,3,67" max="-3,7,59"/></captured>
+    </control-point>
+</control-points>
+<score>
+    <limit>300</limit>
+</score>
+<portals>
+ 
+    <portal x="@-52" y="@8" z="@63" yaw="@-90"> <!-- Blue Mid Tree to Portal Room -->
+        <region><cuboid min="-39,21,46" max="-38,23,47"/></region>
+    </portal>
+ 
+    <portal x="@23" y="@6" z="@63" yaw="@90"> <!-- Red Portal Room Forward -->
+        <region><cuboid min="35,6,65" max="34,9,61"/></region>
+    </portal>
+    <portal x="@-35" y="@6" z="@63" yaw="@90"> <!-- Blue Middle to Portal Room -->
+        <region><cuboid min="-24,6,64" max="-23,9,62"/></region>
+    </portal>
+ 
+    <!--<portal x="@-52" y="@8" z="@63" yaw="@-90">
+       <portal x="@53.5" y="@8" z="@63" yaw="@90">-->
+ 
+    <portal x="@-52" y="@8" z="@63" yaw="@-90"> <!-- Blue Tree 1 to Portal Room -->
+        <region><cuboid min="-74,25,50" max="-73,28,49"/></region>
+    </portal>
+    <portal x="@-52" y="@8" z="@63" yaw="@-90"> <!-- Blue Dark Tree to Portal Room -->
+        <region><cuboid min="-63,24,119" max="-62,26,118"/></region>
+    </portal>
+ 
+ 
+ 
+    <portal x="@53" y="@8" z="@63" yaw="@90"> <!-- Red Mid Tree to Portal Room -->
+        <region><cuboid min="40,21,80" max="39,23,79"/></region>
+    </portal>
+ 
+    <portal x="@53" y="@8" z="@63" yaw="@90"> <!-- Red Tree 1 to Portal Room -->
+        <region><cuboid min="75,25,76" max="74,27,77"/></region>
+    </portal>
+ 
+    <portal x="@53" y="@8" z="@63" yaw="@90"> <!-- Red Dark to Portal Room -->
+        <region><cuboid min="64,24,7" max="63,25,8"/></region>
+    </portal>
+ 
+ 
+    <portal x="@-22" y="@6" z="@63" yaw="@-90"> <!-- Blue Portal Room Forward -->
+        <region><cuboid min="-33,6,61" max="-34,9,65"/></region>
+    </portal>
+    <portal x="@36" y="@6" z="@63" yaw="@-90"> <!-- Red Middle to Portal Room -->
+        <region><cuboid min="25,6,62" max="24,9,64"/></region>
+    </portal>
+ 
+    <!-- Blue Portals -->
+    <portal x="@-51" y="@8" z="@40" yaw="@-180"> <!-- Blue Portal Room to Left -->
+        <region><cuboid min="-52,8,49" max="-51,11,50"/></region>
+    </portal>
+    <portal x="@-51.5" y="@8" z="@51" yaw="@0"> <!-- Left to Blue Portal Room -->
+        <region><cuboid min="-50,8,42" max="-52,11,41"/></region>
+    </portal>
+   
+ 
+    <portal x="@-42" y="@15" z="@31" yaw="@90"> <!-- Left to Forward -->
+        <region><cuboid min="-32,12,37" max="-33,15,38"/></region>
+    </portal>
+ 
+ 
+ 
+    <portal x="@-51" y="@8" z="@86" yaw="@0"> <!-- Blue Portal Room to Right -->
+        <region><cuboid min="-51,8,77" max="-52,11,76"/></region>
+    </portal>
+    <portal x="@-51.5" y="@8" z="@75" yaw="@180"> <!-- Right to Blue Portal Room -->
+        <region><cuboid min="-52,8,84" max="-50,9,85"/></region>
+    </portal>
+ 
+    <portal x="@-42" y="@15" z="@95" yaw="@90"> <!-- Right to Forward -->
+        <region><cuboid min="-32,12,88" max="-33,15,89"/></region>
+    </portal>
+	
+	
+	<!-- Right side -->
+	<portal x="@-34" y="@15" z="@98">
+        <region><cuboid min="-45,18,93" max="-43,15,90"/></region>
+    </portal>
+	
+	<portal x="@-34.5" y="@14" z="@92">
+        <region><cuboid min="-45,18,96" max="-43,15,93"/></region>
+    </portal>
+	
+	<portal x="@-107.5" y="@21" z="@103.5" yaw="@90">
+        <region><cuboid min="-83,20,101" max="-81,17,96"/></region>
+    </portal>
+	
+	<portal x="@-7" y="@10" z="@95">
+        <region><cuboid min="-16,17,96" max="-18,14,101"/></region>
+    </portal>
+	
+	<portal x="@-7" y="@10" z="@95">
+        <region><cuboid min="-16,17,93" max="-18,14,96"/></region>
+    </portal>
+	
+	<portal x="@-7" y="@10" z="@95">
+        <region><cuboid min="-16,17,90" max="-18,14,93"/></region>
+    </portal>
+	
+	<portal x="@-52" y="@8" z="@63" yaw="@-90">
+        <region><cuboid min="-12,31,96" max="-10,10,93"/></region>
+    </portal>
+	
+	<portal x="@-107.5" y="@21" z="@103.5" yaw="@90">
+        <region><cuboid min="-13,13,85" max="-11,10,82"/></region>
+    </portal>
+	
+	<portal x="@-10" y="@19" z="@62">
+        <region><cuboid min="-10,13,71" max="-5,10,73"/></region>
+    </portal>
+	<!-- Left Side -->
+	<portal x="@-107.5" y="@21" z="@103.5" yaw="@90">
+        <region><cuboid min="-83,20,29" max="-81,17,24"/></region>
+    </portal>
+	
+	<portal x="@-34.5" y="@14" z="@34">
+        <region><cuboid min="-45,18,32" max="-43,15,29"/></region>
+    </portal>
+	
+	<portal x="@-35" y="@15" z="@26">
+        <region><cuboid min="-45,18,35" max="-43,15,32"/></region>
+    </portal>
+	
+	<portal x="@-7" y="@10" z="@30">
+        <region><cuboid min="-16,17,32" max="-18,14,35"/></region>
+    </portal>
+	
+	<portal x="@-7" y="@10" z="@30">
+        <region><cuboid min="-16,17,29" max="-18,14,32"/></region>
+    </portal>
+	
+	<portal x="@-7" y="@10" z="@30">
+        <region><cuboid min="-16,17,24" max="-18,14,29"/></region>
+    </portal>
+	
+	<portal x="@-52" y="@8" z="@63" yaw="@-90">
+        <region><cuboid min="-12,13,32" max="-10,10,29"/></region>
+    </portal>
+	
+	<portal x="@-107.5" y="@21" z="@103.5" yaw="@90">
+        <region><cuboid min="-13,13,43" max="-11,10,40"/></region>
+    </portal>
+	
+	<portal x="@-10" y="@19" z="@62">
+        <region><cuboid min="-5,13,54" max="-10,10,52"/></region>
+    </portal>
+	
+	
+	
+    <!-- RED -->
+    <portal x="@52" y="@8" z="@40">
+        <region><cuboid min="53,7,49" max="52,10,50"/></region>
+    </portal>
+ 
+    <portal x="@52" y="@8" z="@86">
+        <region><cuboid min="53,7,76" max="52,10,77"/></region>
+    </portal>
+       
+    <portal x="@52.5" y="@8" z="@75">
+        <region><cuboid min="53,10,85" max="51,8,84"/></region>
+    </portal>
+    
+    <portal x="@52.5" y="@8" z="@51">
+        <region><cuboid min="53,9,41" max="52,8,42"/></region>
+    </portal>
+ 
+   <portal x="@35.5" y="@14" z="@95">
+        <region><cuboid min="34,14,90" max="32,11,87"/></region>
+    </portal>
+       
+       
+    <portal x="@36" y="@15" z="@99">
+        <region><cuboid min="44,17,90" max="45,14,93"/></region>
+    </portal>
+       
+    <portal x="@108" y="@21" z="@22">
+        <region><cuboid min="82,20,96" max="83,17,101"/></region>
+    </portal>
+       
+    <portal x="@35" y="@14" z="@91">
+        <region><cuboid min="44,18,93" max="45,15,96"/></region>
+    </portal>
+       
+    <portal x="@8" y="@10" z="@95">
+        <region><cuboid min="18,17,96" max="15,14,93"/></region>
+    </portal>
+       
+    <portal x="@8" y="@10" z="@95">
+        <region><cuboid min="18,17,93" max="15,14,90"/></region>
+    </portal>
+       
+    <portal x="@8" y="@10" z="@95">
+        <region><cuboid min="18,17,101" max="15,14,96"/></region>
+    </portal>
+ 
+    <portal x="@53" y="@8" z="@63" yaw="@90">
+        <region><cuboid min="12,12,93" max="10,11,96"/></region>
+    </portal>  
+       
+    <portal x="@108" y="@21" z="@22">
+        <region><cuboid min="13,10,85" max="11,12,82"/></region>
+    </portal>  
+       
+    <portal x="@13" y="@19" z="@53">
+        <region><cuboid min="5,12,73" max="10,10,71"/></region>
+    </portal>
+	
+	<portal x="@35.5" y="@14" z="@31">
+        <region><cuboid min="32,15,38" max="34,12,36"/></region>
+    </portal>
+
+	<portal x="@35.5" y="@14" z="@34">
+        <region><cuboid min="43,15,31" max="45,18,29"/></region>
+    </portal>
+	
+	<portal x="@36" y="@15" z="@26">
+        <region><cuboid min="45,18,32" max="43,15,34"/></region>
+    </portal>
+	
+	<portal x="@7" y="@10" z="@30">
+        <region><cuboid min="18,14,33" max="16,17,35"/></region>
+    </portal>
+	
+	<portal x="@7" y="@10" z="@30">
+        <region><cuboid min="16,17,32" max="18,14,30"/></region>
+    </portal>
+	
+	<portal x="@7" y="@10" z="@30">
+        <region><cuboid min="16,17,29" max="18,14,25"/></region>
+    </portal>
+
+	<portal x="@108" y="@21" z="@22">
+        <region><cuboid min="81,17,28" max="83,20,24"/></region>
+    </portal>
+	
+    <portal x="@108" y="@21" z="@22">
+        <region><cuboid min="81,17,28" max="83,20,24"/></region>
+    </portal>
+	
+	<portal x="@13" y="@19" z="@53">
+        <region><cuboid min="5,10,52" max="10,13,54"/></region>
+    </portal>
+	
+	<portal x="@108" y="@21" z="@22">
+        <region><cuboid min="13,13,40" max="11,10,43"/></region>
+    </portal>
+	
+	<portal x="@53" y="@8" z="@63" yaw="@90">
+        <region><cuboid min="10,10,32" max="12,13,29"/></region>
+    </portal>
+</portals>
+<renewables>
+    <renewable rate="5" grow="true" avoid-entities="true" particles="false" sound="false">
+    <region><everywhere/></region>
+            <material>glass</material>
+			<material>stained clay</material>
+			<material>leaves</material>
+			<material>fence</material>
+			<material>wood</material>
+			<material>log</material>
+
+    </renewable>
+    </renewables>
+ 
+<killreward>
+    <item amount="1" damage="4">ink sack</item>
+    <item amount="1">exp bottle</item>
+</killreward>
+<killreward>
+    <filter>
+        <kill-streak count="3" repeat="true"/>
+    </filter>
+    <kit id="rewardKit"/>
+</killreward>
+<hunger>
+    <depletion>off</depletion>
+</hunger>
+<time result="tie">8m</time>
+</map>
